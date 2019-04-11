@@ -3,10 +3,11 @@
 const Tone = require('tone')
 const Interface = require('./interface')
 
-function ChannelInterface (id, node) {
+function ChannelInterface (id, node, options = {}) {
   Interface.call(this, id, node)
 
   this.node = node
+  this.isAtonal = options.isAtonal ? true : false
   this.node.envelope.attack = 0.001
   this.node.envelope.decay = clamp(((8 - (id % 8)) / 8), 0.01, 0.9)
   this.node.envelope.sustain = clamp(((id % 4) / 4), 0.01, 0.9)
@@ -59,7 +60,11 @@ function ChannelInterface (id, node) {
     if (this.lastNote && performance.now() - this.lastNote < 100) { return }
     const name = `${data.note}${data.sharp}${data.octave}`
     const length = clamp(data.length, 0.1, 0.9)
-    this.node.triggerAttackRelease(name, length, '+0', data.velocity)
+    if (this.isAtonal) {
+      this.node.triggerAttackRelease(length, '+0', data.velocity)
+    } else {
+      this.node.triggerAttackRelease(name, length, '+0', data.velocity)
+    }
     this.lastNote = performance.now()
     this.updateOct(data)
   }

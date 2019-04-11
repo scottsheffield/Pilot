@@ -116,17 +116,17 @@ function Mixer (pilot) {
       'envelope': { 'attack': 0.1, 'decay': 0, 'sustain': 0.5, 'release': 1.0 }
     }))
 
-    this.channels[14] = new ChannelInterface(14, new Tone.MembraneSynth({
-      'octaves': 15,
-      'oscillator': { 'type': 'triangle8' },
-      'envelope': { 'attack': 0.1, 'decay': 0, 'sustain': 0.5, 'release': 1.0 }
-    }))
+    this.channels[14] = new ChannelInterface(14, new Tone.NoiseSynth({
+      'noise': { 'type': 'white' },
+      'volume': -35,
+      'envelope': { 'attack': 0, 'decay': 0.2, 'sustain': 0.2, 'release': 1.0 }
+    }), { 'isAtonal': true })
 
-    this.channels[15] = new ChannelInterface(15, new Tone.MembraneSynth({
-      'octaves': 20,
-      'oscillator': { 'type': 'square8' },
-      'envelope': { 'attack': 0.1, 'decay': 0, 'sustain': 0.5, 'release': 1.0 }
-    }))
+    this.channels[15] = new ChannelInterface(15, new Tone.NoiseSynth({
+      'noise': { 'type': 'pink' },
+      'volume': -10,
+      'envelope': { 'attack': 0, 'decay': 0.5, 'sustain': 0.2, 'release': 1.0 }
+    }), { 'isAtonal': true })
 
     this.effects.bitcrusher = new EffectInterface('bit', new Tone.BitCrusher(4))
     this.effects.distortion = new EffectInterface('dis', new Tone.Distortion(0.05))
@@ -134,7 +134,7 @@ function Mixer (pilot) {
     this.effects.chorus = new EffectInterface('cho', new Tone.Chorus(4, 2.5, 0.5))
     this.effects.tremolo = new EffectInterface('tre', new Tone.Tremolo())
     this.effects.vibrato = new EffectInterface('vib', new Tone.Vibrato())
-    this.effects.reverb = new EffectInterface('rev', new Tone.JCReverb(0.2))
+    this.effects.reverb = new EffectInterface('rev', new Tone.Freeverb(0.2))
     this.effects.feedback = new EffectInterface('fee', new Tone.FeedbackDelay(0.5))
 
     // Connect
